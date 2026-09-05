@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Athena | Smart Library Management System</title>
-    <meta name="description" content="Modern Library Management System for seamless cataloging, member tracking, book circulation, and fine management.">
-    
+    <meta name="description"
+        content="Modern Library Management System for seamless cataloging, member tracking, book circulation, and fine management.">
+
     <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Feather Icons CDN for crisp SVG icons -->
     <script src="https://unpkg.com/feather-icons"></script>
-    
+
     <!-- Application Stylesheets -->
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/components.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- ==================================================== -->
@@ -41,7 +46,7 @@
 
             <nav class="sidebar-nav">
                 <div class="nav-group-title">MAIN NAVIGATION</div>
-                
+
                 <a href="#dashboard" class="nav-item active" data-tab="dashboard" id="nav-dashboard">
                     <i data-feather="grid"></i>
                     <span class="nav-label">Dashboard</span>
@@ -109,14 +114,16 @@
                     </button>
                     <div class="page-title-area">
                         <h1 class="page-title" id="current-page-title">Dashboard Overview</h1>
-                        <span class="page-subtitle" id="current-page-subtitle">Real-time circulation metrics and library operations</span>
+                        <span class="page-subtitle" id="current-page-subtitle">Real-time circulation metrics and library
+                            operations</span>
                     </div>
                 </div>
 
                 <div class="navbar-center">
                     <div class="global-search-bar">
                         <i data-feather="search"></i>
-                        <input type="text" id="global-search-input" placeholder="Quick search books, members, ISBN, loan IDs..." autocomplete="off">
+                        <input type="text" id="global-search-input"
+                            placeholder="Quick search books, members, ISBN, loan IDs..." autocomplete="off">
                         <span class="search-shortcut">⌘K</span>
                     </div>
                 </div>
@@ -141,7 +148,7 @@
 
             <!-- MAIN CONTAINER FOR DYNAMIC TABS -->
             <main class="content-body">
-                
+
                 <!-- ================================================ -->
                 <!-- 1. TAB: DASHBOARD -->
                 <!-- ================================================ -->
@@ -149,8 +156,13 @@
                     <!-- Top Metric Cards -->
                     <div class="stats-grid">
                         <div class="stat-card card-books">
-                            <div class="stat-card-icon">
-                                <i data-feather="book"></i>
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-feather="book"></i>
+                                </div>
+                                <div class="stat-badge badge-blue">
+                                    <i data-feather="check"></i> <span>In Stock</span>
+                                </div>
                             </div>
                             <div class="stat-card-content">
                                 <span class="stat-label">Total Catalog Books</span>
@@ -159,14 +171,16 @@
                                     <span class="stat-highlight" id="stat-available-copies">0</span> copies available
                                 </div>
                             </div>
-                            <div class="stat-badge badge-blue">
-                                <i data-feather="check"></i> In Stock
-                            </div>
                         </div>
 
                         <div class="stat-card card-loans">
-                            <div class="stat-card-icon">
-                                <i data-feather="bookmark"></i>
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-feather="bookmark"></i>
+                                </div>
+                                <div class="stat-badge badge-purple">
+                                    <i data-feather="repeat"></i> <span>Active</span>
+                                </div>
                             </div>
                             <div class="stat-card-content">
                                 <span class="stat-label">Active Loans</span>
@@ -175,30 +189,35 @@
                                     <span class="stat-highlight" id="stat-returned-loans">0</span> returned lifetime
                                 </div>
                             </div>
-                            <div class="stat-badge badge-purple">
-                                <i data-feather="repeat"></i> Active
-                            </div>
                         </div>
 
                         <div class="stat-card card-overdue">
-                            <div class="stat-card-icon">
-                                <i data-feather="alert-triangle"></i>
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-feather="alert-triangle"></i>
+                                </div>
+                                <div class="stat-badge badge-rose">
+                                    <i data-feather="clock"></i> <span>Action Needed</span>
+                                </div>
                             </div>
                             <div class="stat-card-content">
                                 <span class="stat-label">Overdue Returns</span>
                                 <h3 class="stat-value" id="stat-overdue-loans">0</h3>
                                 <div class="stat-sub">
-                                    <span class="stat-highlight stat-danger" id="stat-unpaid-fines">$0.00</span> pending fines
+                                    <span class="stat-highlight stat-danger" id="stat-unpaid-fines">$0.00</span> pending
+                                    fines
                                 </div>
-                            </div>
-                            <div class="stat-badge badge-rose">
-                                <i data-feather="clock"></i> Action Needed
                             </div>
                         </div>
 
                         <div class="stat-card card-members">
-                            <div class="stat-card-icon">
-                                <i data-feather="users"></i>
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-feather="users"></i>
+                                </div>
+                                <div class="stat-badge badge-emerald">
+                                    <i data-feather="shield"></i> <span>Verified</span>
+                                </div>
                             </div>
                             <div class="stat-card-content">
                                 <span class="stat-label">Registered Members</span>
@@ -206,9 +225,6 @@
                                 <div class="stat-sub">
                                     <span class="stat-highlight" id="stat-active-members">0</span> active accounts
                                 </div>
-                            </div>
-                            <div class="stat-badge badge-emerald">
-                                <i data-feather="shield"></i> Verified
                             </div>
                         </div>
                     </div>
@@ -259,10 +275,12 @@
                         <div class="glass-card">
                             <div class="card-header">
                                 <div class="card-title-group">
-                                    <h3 class="card-title text-danger"><i data-feather="alert-circle"></i> Overdue Loans Requiring Attention</h3>
+                                    <h3 class="card-title text-danger"><i data-feather="alert-circle"></i> Overdue Loans
+                                        Requiring Attention</h3>
                                     <p class="card-subtitle">Members with books past due date</p>
                                 </div>
-                                <button class="btn-sm btn-outline" onclick="app.switchTab('circulation', 'OVERDUE')">View All</button>
+                                <button class="btn-sm btn-outline"
+                                    onclick="app.switchTab('circulation', 'OVERDUE')">View All</button>
                             </div>
                             <div class="card-body p-0">
                                 <div class="table-responsive">
@@ -279,7 +297,10 @@
                                             </tr>
                                         </thead>
                                         <tbody id="dashboard-overdue-tbody">
-                                            <tr><td colspan="7" class="text-center py-4">Checking overdue records...</td></tr>
+                                            <tr>
+                                                <td colspan="7" class="text-center py-4">Checking overdue records...
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -340,7 +361,8 @@
                         <div class="toolbar-left">
                             <div class="search-input-wrap">
                                 <i data-feather="search"></i>
-                                <input type="text" id="books-search-input" placeholder="Search by title, author, ISBN, publisher..." class="form-control">
+                                <input type="text" id="books-search-input"
+                                    placeholder="Search by title, author, ISBN, publisher..." class="form-control">
                             </div>
 
                             <select id="books-category-filter" class="form-select">
@@ -421,7 +443,8 @@
                         <div class="toolbar-left">
                             <div class="search-input-wrap">
                                 <i data-feather="search"></i>
-                                <input type="text" id="members-search-input" placeholder="Search members by name, code, email, phone..." class="form-control">
+                                <input type="text" id="members-search-input"
+                                    placeholder="Search members by name, code, email, phone..." class="form-control">
                             </div>
 
                             <select id="members-type-filter" class="form-select">
@@ -480,7 +503,8 @@
                         <div class="toolbar-left">
                             <div class="search-input-wrap">
                                 <i data-feather="search"></i>
-                                <input type="text" id="loans-search-input" placeholder="Filter loans by book, member, loan code..." class="form-control">
+                                <input type="text" id="loans-search-input"
+                                    placeholder="Filter loans by book, member, loan code..." class="form-control">
                             </div>
 
                             <div class="filter-btn-group" id="loan-status-tabs">
@@ -532,7 +556,8 @@
                         <div class="toolbar-left">
                             <div class="search-input-wrap">
                                 <i data-feather="search"></i>
-                                <input type="text" id="fines-search-input" placeholder="Search fines by member, book, loan ID..." class="form-control">
+                                <input type="text" id="fines-search-input"
+                                    placeholder="Search fines by member, book, loan ID..." class="form-control">
                             </div>
 
                             <div class="filter-btn-group" id="fine-status-tabs">
@@ -587,7 +612,8 @@
                             </div>
                             <div class="report-meta">
                                 <h3>Books Inventory Export</h3>
-                                <p>Comprehensive catalog of all titles, ISBNs, shelf locations, total and available stock.</p>
+                                <p>Comprehensive catalog of all titles, ISBNs, shelf locations, total and available
+                                    stock.</p>
                                 <div class="report-stats">Format: CSV Spreadsheet</div>
                             </div>
                             <a href="/api/export/books" class="btn-primary btn-download" download>
@@ -601,7 +627,8 @@
                             </div>
                             <div class="report-meta">
                                 <h3>Members Roster Export</h3>
-                                <p>Full list of registered patrons, membership levels, contact records, and account statuses.</p>
+                                <p>Full list of registered patrons, membership levels, contact records, and account
+                                    statuses.</p>
                                 <div class="report-stats">Format: CSV Spreadsheet</div>
                             </div>
                             <a href="/api/export/members" class="btn-primary btn-download" download>
@@ -615,7 +642,8 @@
                             </div>
                             <div class="report-meta">
                                 <h3>Circulation Transactions Export</h3>
-                                <p>Complete borrowing history, issue dates, due dates, renewal counts, and return records.</p>
+                                <p>Complete borrowing history, issue dates, due dates, renewal counts, and return
+                                    records.</p>
                                 <div class="report-stats">Format: CSV Spreadsheet</div>
                             </div>
                             <a href="/api/export/loans" class="btn-primary btn-download" download>
@@ -629,7 +657,8 @@
                             </div>
                             <div class="report-meta">
                                 <h3>Fines & Revenue Export</h3>
-                                <p>Detailed overdue penalties, collected fee revenue, settled payments, and fee waivers.</p>
+                                <p>Detailed overdue penalties, collected fee revenue, settled payments, and fee waivers.
+                                </p>
                                 <div class="report-stats">Format: CSV Spreadsheet</div>
                             </div>
                             <a href="/api/export/fines" class="btn-primary btn-download" download>
@@ -647,7 +676,8 @@
                         <div class="card-header">
                             <div class="card-title-group">
                                 <h3 class="card-title">System Audit Trail</h3>
-                                <p class="card-subtitle">Chronological record of all library transactions and updates</p>
+                                <p class="card-subtitle">Chronological record of all library transactions and updates
+                                </p>
                             </div>
                         </div>
                         <div class="card-body">
@@ -679,17 +709,20 @@
                     <div class="form-grid">
                         <div class="form-group col-12">
                             <label class="form-label" for="book-title-input">Book Title *</label>
-                            <input type="text" id="book-title-input" class="form-control" required placeholder="e.g. Design Patterns: Elements of Reusable Object-Oriented Software">
+                            <input type="text" id="book-title-input" class="form-control" required
+                                placeholder="e.g. Design Patterns: Elements of Reusable Object-Oriented Software">
                         </div>
 
                         <div class="form-group col-6">
                             <label class="form-label" for="book-author-input">Author(s) *</label>
-                            <input type="text" id="book-author-input" class="form-control" required placeholder="e.g. Erich Gamma, Richard Helm">
+                            <input type="text" id="book-author-input" class="form-control" required
+                                placeholder="e.g. Erich Gamma, Richard Helm">
                         </div>
 
                         <div class="form-group col-6">
                             <label class="form-label" for="book-isbn-input">ISBN-10 / ISBN-13 *</label>
-                            <input type="text" id="book-isbn-input" class="form-control" required placeholder="e.g. 978-0201633610">
+                            <input type="text" id="book-isbn-input" class="form-control" required
+                                placeholder="e.g. 978-0201633610">
                         </div>
 
                         <div class="form-group col-6">
@@ -701,17 +734,20 @@
 
                         <div class="form-group col-6">
                             <label class="form-label" for="book-publisher-input">Publisher</label>
-                            <input type="text" id="book-publisher-input" class="form-control" placeholder="e.g. Addison-Wesley Professional">
+                            <input type="text" id="book-publisher-input" class="form-control"
+                                placeholder="e.g. Addison-Wesley Professional">
                         </div>
 
                         <div class="form-group col-4">
                             <label class="form-label" for="book-year-input">Publication Year</label>
-                            <input type="number" id="book-year-input" class="form-control" min="1500" max="2030" placeholder="e.g. 2024">
+                            <input type="number" id="book-year-input" class="form-control" min="1500" max="2030"
+                                placeholder="e.g. 2024">
                         </div>
 
                         <div class="form-group col-4">
                             <label class="form-label" for="book-copies-input">Total Copies *</label>
-                            <input type="number" id="book-copies-input" class="form-control" min="1" max="500" value="3" required>
+                            <input type="number" id="book-copies-input" class="form-control" min="1" max="500" value="3"
+                                required>
                         </div>
 
                         <div class="form-group col-4">
@@ -722,19 +758,27 @@
                         <div class="form-group col-12">
                             <label class="form-label" for="book-color-input">Cover Accent Theme</label>
                             <div class="color-picker-group">
-                                <label class="color-option"><input type="radio" name="book-color" value="#3b82f6" checked><span class="color-swatch" style="background:#3b82f6;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#6366f1"><span class="color-swatch" style="background:#6366f1;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#8b5cf6"><span class="color-swatch" style="background:#8b5cf6;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#ec4899"><span class="color-swatch" style="background:#ec4899;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#10b981"><span class="color-swatch" style="background:#10b981;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#f59e0b"><span class="color-swatch" style="background:#f59e0b;"></span></label>
-                                <label class="color-option"><input type="radio" name="book-color" value="#06b6d4"><span class="color-swatch" style="background:#06b6d4;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#3b82f6"
+                                        checked><span class="color-swatch" style="background:#3b82f6;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#6366f1"><span
+                                        class="color-swatch" style="background:#6366f1;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#8b5cf6"><span
+                                        class="color-swatch" style="background:#8b5cf6;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#ec4899"><span
+                                        class="color-swatch" style="background:#ec4899;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#10b981"><span
+                                        class="color-swatch" style="background:#10b981;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#f59e0b"><span
+                                        class="color-swatch" style="background:#f59e0b;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#06b6d4"><span
+                                        class="color-swatch" style="background:#06b6d4;"></span></label>
                             </div>
                         </div>
 
                         <div class="form-group col-12">
                             <label class="form-label" for="book-desc-input">Description / Overview</label>
-                            <textarea id="book-desc-input" class="form-control" rows="3" placeholder="Brief summary, key topics, notes..."></textarea>
+                            <textarea id="book-desc-input" class="form-control" rows="3"
+                                placeholder="Brief summary, key topics, notes..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -759,22 +803,26 @@
                     <div class="form-grid">
                         <div class="form-group col-12">
                             <label class="form-label" for="member-name-input">Full Name *</label>
-                            <input type="text" id="member-name-input" class="form-control" required placeholder="e.g. Eleanor Vance">
+                            <input type="text" id="member-name-input" class="form-control" required
+                                placeholder="e.g. Eleanor Vance">
                         </div>
 
                         <div class="form-group col-6">
                             <label class="form-label" for="member-email-input">Email Address *</label>
-                            <input type="email" id="member-email-input" class="form-control" required placeholder="e.g. eleanor.vance@example.edu">
+                            <input type="email" id="member-email-input" class="form-control" required
+                                placeholder="e.g. eleanor.vance@example.edu">
                         </div>
 
                         <div class="form-group col-6">
                             <label class="form-label" for="member-phone-input">Phone Number *</label>
-                            <input type="text" id="member-phone-input" class="form-control" required placeholder="e.g. +1 (555) 019-2834">
+                            <input type="text" id="member-phone-input" class="form-control" required
+                                placeholder="e.g. +1 (555) 019-2834">
                         </div>
 
                         <div class="form-group col-6">
                             <label class="form-label" for="member-type-input">Membership Tier</label>
-                            <select id="member-type-input" class="form-select" onchange="app.handleMembershipTypeChange()">
+                            <select id="member-type-input" class="form-select"
+                                onchange="app.handleMembershipTypeChange()">
                                 <option value="Student">Student (5 books max)</option>
                                 <option value="Faculty">Faculty (10 books max)</option>
                                 <option value="Premium">Premium (8 books max)</option>
@@ -798,7 +846,8 @@
 
                         <div class="form-group col-12">
                             <label class="form-label" for="member-address-input">Residential Address</label>
-                            <input type="text" id="member-address-input" class="form-control" placeholder="e.g. 742 Evergreen Terrace, Springfield">
+                            <input type="text" id="member-address-input" class="form-control"
+                                placeholder="e.g. 742 Evergreen Terrace, Springfield">
                         </div>
                     </div>
                 </div>
@@ -825,7 +874,8 @@
                             <select id="issue-book-select" class="form-select" required>
                                 <option value="">-- Choose a Book --</option>
                             </select>
-                            <small class="form-hint" id="issue-book-hint">Only books with available copies in inventory are listed.</small>
+                            <small class="form-hint" id="issue-book-hint">Only books with available copies in inventory
+                                are listed.</small>
                         </div>
 
                         <div class="form-group col-12">
@@ -833,7 +883,8 @@
                             <select id="issue-member-select" class="form-select" required>
                                 <option value="">-- Choose a Member --</option>
                             </select>
-                            <small class="form-hint" id="issue-member-hint">Active members with remaining borrowing capacity.</small>
+                            <small class="form-hint" id="issue-member-hint">Active members with remaining borrowing
+                                capacity.</small>
                         </div>
 
                         <div class="form-group col-6">
@@ -853,7 +904,8 @@
 
                         <div class="form-group col-12">
                             <label class="form-label" for="issue-notes-input">Notes / Purpose (Optional)</label>
-                            <input type="text" id="issue-notes-input" class="form-control" placeholder="e.g. Research project loan, semester reading">
+                            <input type="text" id="issue-notes-input" class="form-control"
+                                placeholder="e.g. Research project loan, semester reading">
                         </div>
                     </div>
                 </div>
@@ -896,10 +948,11 @@
                         <strong class="text-danger" id="return-fine-amount">$0.00</strong>
                     </div>
                 </div>
-                
+
                 <div class="form-group mt-3">
                     <label class="form-label" for="return-notes-input">Condition / Notes (Optional)</label>
-                    <input type="text" id="return-notes-input" class="form-control" placeholder="e.g. Returned in good shape, spine intact">
+                    <input type="text" id="return-notes-input" class="form-control"
+                        placeholder="e.g. Returned in good shape, spine intact">
                 </div>
             </div>
             <div class="modal-footer">
@@ -947,7 +1000,8 @@
                 <!-- Dynamically populated -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-secondary" onclick="app.closeModal('modal-book-details')">Close</button>
+                <button type="button" class="btn-secondary"
+                    onclick="app.closeModal('modal-book-details')">Close</button>
             </div>
         </div>
     </div>
@@ -968,4 +1022,5 @@
         });
     </script>
 </body>
+
 </html>

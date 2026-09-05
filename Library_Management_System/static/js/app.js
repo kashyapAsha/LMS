@@ -26,7 +26,7 @@ class LibraryApp {
         this.applyTheme(this.state.theme);
         this.initEventListeners();
         this.startClock();
-        
+
         // Load initial data
         await this.loadCategories();
         await this.loadDashboardData();
@@ -271,13 +271,13 @@ class LibraryApp {
             // Update top cards
             document.getElementById('stat-total-books').textContent = books.total_copies || 0;
             document.getElementById('stat-available-copies').textContent = books.available_copies || 0;
-            
+
             document.getElementById('stat-active-loans').textContent = loans.active_loans || 0;
             document.getElementById('stat-returned-loans').textContent = loans.returned_loans || 0;
-            
+
             document.getElementById('stat-overdue-loans').textContent = loans.overdue_loans || 0;
             document.getElementById('stat-unpaid-fines').textContent = `$${(fines.total_unpaid_fines || 0).toFixed(2)}`;
-            
+
             document.getElementById('stat-total-members').textContent = members.total_members || 0;
             document.getElementById('stat-active-members').textContent = members.active_members || 0;
 
@@ -362,18 +362,18 @@ class LibraryApp {
             const res = await API.getCategories();
             if (res.success) {
                 this.state.categories = res.data || [];
-                
+
                 // Populate category dropdowns
                 const filterSelect = document.getElementById('books-category-filter');
                 const modalSelect = document.getElementById('book-category-input');
 
                 if (filterSelect) {
-                    filterSelect.innerHTML = '<option value="">All Categories</option>' + 
+                    filterSelect.innerHTML = '<option value="">All Categories</option>' +
                         this.state.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
                 }
 
                 if (modalSelect) {
-                    modalSelect.innerHTML = '<option value="">-- Select Category --</option>' + 
+                    modalSelect.innerHTML = '<option value="">-- Select Category --</option>' +
                         this.state.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
                 }
 
@@ -443,7 +443,7 @@ class LibraryApp {
 
     renderBooks() {
         const books = this.state.books;
-        
+
         // 1. Render Grid View
         const gridView = document.getElementById('books-grid-view');
         if (gridView) {
@@ -459,7 +459,7 @@ class LibraryApp {
                     const total = Number(b.total_copies);
                     const percentage = total > 0 ? (avail / total) * 100 : 0;
                     const fillClass = avail === 0 ? 'empty' : (avail === 1 ? 'low' : '');
-                    
+
                     return `
                         <div class="book-card">
                             <div class="book-card-header" style="background:${b.cover_color || '#3b82f6'};">
@@ -581,7 +581,7 @@ class LibraryApp {
         e.preventDefault();
         const bookId = document.getElementById('book-id').value;
         const colorRadio = document.querySelector('input[name="book-color"]:checked');
-        
+
         const payload = {
             title: document.getElementById('book-title-input').value.trim(),
             author: document.getElementById('book-author-input').value.trim(),
@@ -877,7 +877,7 @@ class LibraryApp {
         tbody.innerHTML = loans.map(l => {
             const isReturned = l.status === 'RETURNED';
             const isOverdue = l.status === 'OVERDUE';
-            
+
             return `
                 <tr>
                     <td><code>${l.loan_code}</code></td>
@@ -931,12 +931,12 @@ class LibraryApp {
             const memberSelect = document.getElementById('issue-member-select');
 
             if (bookSelect) {
-                bookSelect.innerHTML = '<option value="">-- Choose Available Book --</option>' + 
+                bookSelect.innerHTML = '<option value="">-- Choose Available Book --</option>' +
                     (booksRes.data || []).map(b => `<option value="${b.id}">${b.title} (${b.available_copies} available) - ${b.isbn}</option>`).join('');
             }
 
             if (memberSelect) {
-                memberSelect.innerHTML = '<option value="">-- Choose Member --</option>' + 
+                memberSelect.innerHTML = '<option value="">-- Choose Member --</option>' +
                     (membersRes.data || []).map(m => `<option value="${m.id}">${m.full_name} (${m.member_code}) - ${m.membership_type}</option>`).join('');
             }
 
@@ -979,7 +979,7 @@ class LibraryApp {
 
             this.showToast(res.message || 'Book issued successfully!', 'success');
             this.closeModal('modal-issue');
-            
+
             if (this.state.currentTab === 'circulation') {
                 await this.filterLoans();
             }
@@ -995,7 +995,7 @@ class LibraryApp {
         if (!modal) return;
 
         document.getElementById('return-loan-id').value = loanId;
-        
+
         if (loan) {
             document.getElementById('return-book-title').textContent = loan.book_title;
             document.getElementById('return-member-name').textContent = `${loan.member_name} (${loan.member_code})`;
@@ -1024,7 +1024,7 @@ class LibraryApp {
             const res = await API.returnBook(loanId, { notes });
             this.showToast(res.message || 'Book returned successfully!', 'success');
             this.closeModal('modal-return');
-            
+
             if (this.state.currentTab === 'circulation') {
                 await this.filterLoans();
             }
@@ -1078,7 +1078,7 @@ class LibraryApp {
         const totalUnpaid = fines
             .filter(f => f.status === 'UNPAID')
             .reduce((acc, f) => acc + Number(f.amount || 0), 0);
-            
+
         document.getElementById('fines-total-unpaid-header').textContent = `$${totalUnpaid.toFixed(2)}`;
 
         if (fines.length === 0) {
@@ -1126,7 +1126,7 @@ class LibraryApp {
         document.getElementById('fine-id').value = fineId;
         document.getElementById('fine-modal-amount').textContent = `$${Number(fine.amount).toFixed(2)}`;
         document.getElementById('fine-modal-member').textContent = `Borrower: ${fine.member_name} (${fine.member_code}) - Book: ${fine.book_title}`;
-        
+
         modal.classList.add('open');
     }
 
@@ -1245,8 +1245,8 @@ class LibraryApp {
     formatDateTime(dateStr) {
         if (!dateStr) return '';
         const d = new Date(dateStr);
-        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + 
-               d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' +
+            d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 }
 
