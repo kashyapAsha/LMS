@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athena | Smart Library Management System</title>
+    <meta name="description" content="Modern Library Management System for seamless cataloging, member tracking, book circulation, and fine management.">
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons CDN for crisp SVG icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Application Stylesheets -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- ==================================================== -->
+        <!-- SIDEBAR NAVIGATION -->
+        <!-- ==================================================== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-feather="book-open"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Athena<span>LMS</span></h2>
+                        <span class="badge-sub">v2.6 Enterprise</span>
+                    </div>
+                </div>
+                <button class="btn-sidebar-toggle" id="btn-sidebar-collapse" aria-label="Toggle Sidebar">
+                    <i data-feather="chevron-left"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-group-title">MAIN NAVIGATION</div>
+                
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard" id="nav-dashboard">
+                    <i data-feather="grid"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+
+                <a href="#books" class="nav-item" data-tab="books" id="nav-books">
+                    <i data-feather="book"></i>
+                    <span class="nav-label">Books Catalog</span>
+                    <span class="nav-pill" id="badge-total-books">0</span>
+                </a>
+
+                <a href="#members" class="nav-item" data-tab="members" id="nav-members">
+                    <i data-feather="users"></i>
+                    <span class="nav-label">Members Directory</span>
+                    <span class="nav-pill" id="badge-total-members">0</span>
+                </a>
+
+                <div class="nav-group-title">CIRCULATION</div>
+
+                <a href="#circulation" class="nav-item" data-tab="circulation" id="nav-circulation">
+                    <i data-feather="repeat"></i>
+                    <span class="nav-label">Issue & Return</span>
+                    <span class="nav-pill pill-alert" id="badge-active-loans">0</span>
+                </a>
+
+                <a href="#fines" class="nav-item" data-tab="fines" id="nav-fines">
+                    <i data-feather="dollar-sign"></i>
+                    <span class="nav-label">Fines & Dues</span>
+                    <span class="nav-pill pill-warning" id="badge-overdue-fines">$0</span>
+                </a>
+
+                <div class="nav-group-title">ANALYTICS & SYSTEM</div>
+
+                <a href="#reports" class="nav-item" data-tab="reports" id="nav-reports">
+                    <i data-feather="bar-chart-2"></i>
+                    <span class="nav-label">Reports & Exports</span>
+                </a>
+
+                <a href="#activity" class="nav-item" data-tab="activity" id="nav-activity">
+                    <i data-feather="activity"></i>
+                    <span class="nav-label">Audit Logs</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="db-status-widget">
+                    <div class="status-indicator online"></div>
+                    <div class="status-info">
+                        <span class="status-title">MySQL Database</span>
+                        <span class="status-sub">Connected (Port 3306)</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================================================== -->
+        <!-- MAIN CONTENT VIEWPORT -->
+        <!-- ==================================================== -->
+        <div class="main-viewport">
+            <!-- TOP NAVBAR -->
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open Navigation">
+                        <i data-feather="menu"></i>
+                    </button>
+                    <div class="page-title-area">
+                        <h1 class="page-title" id="current-page-title">Dashboard Overview</h1>
+                        <span class="page-subtitle" id="current-page-subtitle">Real-time circulation metrics and library operations</span>
+                    </div>
+                </div>
+
+                <div class="navbar-center">
+                    <div class="global-search-bar">
+                        <i data-feather="search"></i>
+                        <input type="text" id="global-search-input" placeholder="Quick search books, members, ISBN, loan IDs..." autocomplete="off">
+                        <span class="search-shortcut">⌘K</span>
+                    </div>
+                </div>
+
+                <div class="navbar-right">
+                    <div class="live-clock" id="live-clock">
+                        <span class="clock-time">00:00:00</span>
+                        <span class="clock-date">Mon, Jan 01</span>
+                    </div>
+
+                    <button class="btn-theme-toggle" id="theme-toggle-btn" title="Switch Theme (Dark / Light)">
+                        <i data-feather="sun" class="sun-icon"></i>
+                        <i data-feather="moon" class="moon-icon"></i>
+                    </button>
+
+                    <button class="btn-primary btn-quick-issue" id="btn-quick-issue-nav">
+                        <i data-feather="plus-circle"></i>
+                        <span>Issue Book</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN CONTAINER FOR DYNAMIC TABS -->
+            <main class="content-body">
+                
+                <!-- ================================================ -->
+                <!-- 1. TAB: DASHBOARD -->
+                <!-- ================================================ -->
+                <section class="tab-pane active" id="pane-dashboard">
+                    <!-- Top Metric Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card card-books">
+                            <div class="stat-card-icon">
+                                <i data-feather="book"></i>
+                            </div>
+                            <div class="stat-card-content">
+                                <span class="stat-label">Total Catalog Books</span>
+                                <h3 class="stat-value" id="stat-total-books">0</h3>
+                                <div class="stat-sub">
+                                    <span class="stat-highlight" id="stat-available-copies">0</span> copies available
+                                </div>
+                            </div>
+                            <div class="stat-badge badge-blue">
+                                <i data-feather="check"></i> In Stock
+                            </div>
+                        </div>
+
+                        <div class="stat-card card-loans">
+                            <div class="stat-card-icon">
+                                <i data-feather="bookmark"></i>
+                            </div>
+                            <div class="stat-card-content">
+                                <span class="stat-label">Active Loans</span>
+                                <h3 class="stat-value" id="stat-active-loans">0</h3>
+                                <div class="stat-sub">
+                                    <span class="stat-highlight" id="stat-returned-loans">0</span> returned lifetime
+                                </div>
+                            </div>
+                            <div class="stat-badge badge-purple">
+                                <i data-feather="repeat"></i> Active
+                            </div>
+                        </div>
+
+                        <div class="stat-card card-overdue">
+                            <div class="stat-card-icon">
+                                <i data-feather="alert-triangle"></i>
+                            </div>
+                            <div class="stat-card-content">
+                                <span class="stat-label">Overdue Returns</span>
+                                <h3 class="stat-value" id="stat-overdue-loans">0</h3>
+                                <div class="stat-sub">
+                                    <span class="stat-highlight stat-danger" id="stat-unpaid-fines">$0.00</span> pending fines
+                                </div>
+                            </div>
+                            <div class="stat-badge badge-rose">
+                                <i data-feather="clock"></i> Action Needed
+                            </div>
+                        </div>
+
+                        <div class="stat-card card-members">
+                            <div class="stat-card-icon">
+                                <i data-feather="users"></i>
+                            </div>
+                            <div class="stat-card-content">
+                                <span class="stat-label">Registered Members</span>
+                                <h3 class="stat-value" id="stat-total-members">0</h3>
+                                <div class="stat-sub">
+                                    <span class="stat-highlight" id="stat-active-members">0</span> active accounts
+                                </div>
+                            </div>
+                            <div class="stat-badge badge-emerald">
+                                <i data-feather="shield"></i> Verified
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & Visual Analytics Section -->
+                    <div class="analytics-grid">
+                        <div class="glass-card chart-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="card-title">Circulation & Loan Trends</h3>
+                                    <p class="card-subtitle">Monthly borrow volume vs on-time returns</p>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="legend-badge legend-issued"><span class="dot"></span> Issued</span>
+                                    <span class="legend-badge legend-returned"><span class="dot"></span> Returned</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="canvas-container">
+                                    <canvas id="circulationTrendChart" height="230"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card chart-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="card-title">Category Distribution</h3>
+                                    <p class="card-subtitle">Book volume by subject domain</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="donut-chart-wrapper">
+                                    <div class="canvas-container-donut">
+                                        <canvas id="categoryDonutChart" width="190" height="190"></canvas>
+                                    </div>
+                                    <div class="category-legend-list" id="category-legend-container">
+                                        <!-- Dynamic category legends rendered by JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Grid: Critical Overdue & Quick Actions -->
+                    <div class="bottom-dashboard-grid">
+                        <!-- Critical Overdue Alert Box -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="card-title text-danger"><i data-feather="alert-circle"></i> Overdue Loans Requiring Attention</h3>
+                                    <p class="card-subtitle">Members with books past due date</p>
+                                </div>
+                                <button class="btn-sm btn-outline" onclick="app.switchTab('circulation', 'OVERDUE')">View All</button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Loan ID</th>
+                                                <th>Book</th>
+                                                <th>Borrower</th>
+                                                <th>Due Date</th>
+                                                <th>Overdue</th>
+                                                <th>Accrued Fine</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboard-overdue-tbody">
+                                            <tr><td colspan="7" class="text-center py-4">Checking overdue records...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions & System Highlights -->
+                        <div class="glass-card quick-actions-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Quick Actions</h3>
+                            </div>
+                            <div class="quick-action-buttons">
+                                <button class="quick-btn btn-action-issue" onclick="app.openIssueModal()">
+                                    <div class="btn-icon"><i data-feather="plus-circle"></i></div>
+                                    <div class="btn-meta">
+                                        <strong>Issue Book</strong>
+                                        <span>Circulate book to a member</span>
+                                    </div>
+                                </button>
+                                <button class="quick-btn btn-action-addbook" onclick="app.openBookModal()">
+                                    <div class="btn-icon"><i data-feather="book-open"></i></div>
+                                    <div class="btn-meta">
+                                        <strong>Add New Book</strong>
+                                        <span>Add title to catalog</span>
+                                    </div>
+                                </button>
+                                <button class="quick-btn btn-action-addmember" onclick="app.openMemberModal()">
+                                    <div class="btn-icon"><i data-feather="user-plus"></i></div>
+                                    <div class="btn-meta">
+                                        <strong>Register Member</strong>
+                                        <span>Create patron account</span>
+                                    </div>
+                                </button>
+                                <button class="quick-btn btn-action-export" onclick="app.switchTab('reports')">
+                                    <div class="btn-icon"><i data-feather="download"></i></div>
+                                    <div class="btn-meta">
+                                        <strong>Download Reports</strong>
+                                        <span>Export CSV statistics</span>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div class="recent-audit-feed">
+                                <h4 class="feed-title">Recent Activity</h4>
+                                <div class="feed-list" id="dashboard-feed-list">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 2. TAB: BOOKS CATALOG -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-books">
+                    <div class="toolbar-header">
+                        <div class="toolbar-left">
+                            <div class="search-input-wrap">
+                                <i data-feather="search"></i>
+                                <input type="text" id="books-search-input" placeholder="Search by title, author, ISBN, publisher..." class="form-control">
+                            </div>
+
+                            <select id="books-category-filter" class="form-select">
+                                <option value="">All Categories</option>
+                            </select>
+
+                            <select id="books-avail-filter" class="form-select">
+                                <option value="all">All Copies</option>
+                                <option value="available">Available Now</option>
+                                <option value="unavailable">Fully Borrowed</option>
+                            </select>
+
+                            <select id="books-sort-filter" class="form-select">
+                                <option value="newest">Sort: Recently Added</option>
+                                <option value="title_asc">Title (A - Z)</option>
+                                <option value="author_asc">Author (A - Z)</option>
+                                <option value="copies_desc">Copies (High to Low)</option>
+                            </select>
+                        </div>
+
+                        <div class="toolbar-right">
+                            <div class="view-mode-toggle">
+                                <button class="btn-icon-toggle active" id="view-mode-grid" title="Grid View">
+                                    <i data-feather="grid"></i>
+                                </button>
+                                <button class="btn-icon-toggle" id="view-mode-table" title="Table View">
+                                    <i data-feather="list"></i>
+                                </button>
+                            </div>
+                            <button class="btn-primary" onclick="app.openBookModal()">
+                                <i data-feather="plus"></i>
+                                <span>Add New Book</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category Chips -->
+                    <div class="category-chips-bar" id="books-category-chips">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <!-- Books Container (Grid View) -->
+                    <div class="books-grid-container" id="books-grid-view">
+                        <!-- Book cards rendered here -->
+                    </div>
+
+                    <!-- Books Container (Table View - Hidden by default) -->
+                    <div class="books-table-container d-none" id="books-table-view">
+                        <div class="glass-card">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Cover</th>
+                                            <th>Title & Details</th>
+                                            <th>Author</th>
+                                            <th>Category</th>
+                                            <th>ISBN</th>
+                                            <th>Shelf</th>
+                                            <th>Stock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="books-table-tbody">
+                                        <!-- Rendered by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 3. TAB: MEMBERS DIRECTORY -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-members">
+                    <div class="toolbar-header">
+                        <div class="toolbar-left">
+                            <div class="search-input-wrap">
+                                <i data-feather="search"></i>
+                                <input type="text" id="members-search-input" placeholder="Search members by name, code, email, phone..." class="form-control">
+                            </div>
+
+                            <select id="members-type-filter" class="form-select">
+                                <option value="">All Membership Types</option>
+                                <option value="Student">Student</option>
+                                <option value="Faculty">Faculty</option>
+                                <option value="Premium">Premium</option>
+                                <option value="Standard">Standard</option>
+                            </select>
+
+                            <select id="members-status-filter" class="form-select">
+                                <option value="">All Statuses</option>
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Expired">Expired</option>
+                            </select>
+                        </div>
+
+                        <div class="toolbar-right">
+                            <button class="btn-primary" onclick="app.openMemberModal()">
+                                <i data-feather="user-plus"></i>
+                                <span>Register Member</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Members Table -->
+                    <div class="glass-card mt-3">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Member Code</th>
+                                        <th>Full Name & Contact</th>
+                                        <th>Membership Type</th>
+                                        <th>Active Loans</th>
+                                        <th>Unpaid Fines</th>
+                                        <th>Status</th>
+                                        <th>Joined Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="members-table-tbody">
+                                    <!-- Rendered dynamically by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 4. TAB: CIRCULATION (ISSUE & RETURN) -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-circulation">
+                    <div class="toolbar-header">
+                        <div class="toolbar-left">
+                            <div class="search-input-wrap">
+                                <i data-feather="search"></i>
+                                <input type="text" id="loans-search-input" placeholder="Filter loans by book, member, loan code..." class="form-control">
+                            </div>
+
+                            <div class="filter-btn-group" id="loan-status-tabs">
+                                <button class="filter-tab-btn active" data-status="ALL">All Loans</button>
+                                <button class="filter-tab-btn" data-status="ISSUED">Active</button>
+                                <button class="filter-tab-btn" data-status="OVERDUE">Overdue</button>
+                                <button class="filter-tab-btn" data-status="RETURNED">Returned</button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-right">
+                            <button class="btn-primary" onclick="app.openIssueModal()">
+                                <i data-feather="plus-circle"></i>
+                                <span>New Loan Issue</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Circulation Table -->
+                    <div class="glass-card mt-3">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Loan Code</th>
+                                        <th>Book Title</th>
+                                        <th>Borrower</th>
+                                        <th>Issue Date</th>
+                                        <th>Due Date</th>
+                                        <th>Return Date</th>
+                                        <th>Status</th>
+                                        <th>Renewals</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="loans-table-tbody">
+                                    <!-- Rendered dynamically by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 5. TAB: FINES & DUES LEDGER -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-fines">
+                    <div class="toolbar-header">
+                        <div class="toolbar-left">
+                            <div class="search-input-wrap">
+                                <i data-feather="search"></i>
+                                <input type="text" id="fines-search-input" placeholder="Search fines by member, book, loan ID..." class="form-control">
+                            </div>
+
+                            <div class="filter-btn-group" id="fine-status-tabs">
+                                <button class="filter-tab-btn active" data-status="ALL">All Fines</button>
+                                <button class="filter-tab-btn" data-status="UNPAID">Unpaid</button>
+                                <button class="filter-tab-btn" data-status="PAID">Paid</button>
+                                <button class="filter-tab-btn" data-status="WAIVED">Waived</button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-right">
+                            <div class="fine-summary-badge">
+                                <span>Total Unpaid:</span>
+                                <strong id="fines-total-unpaid-header">$0.00</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fines Ledger Table -->
+                    <div class="glass-card mt-3">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fine ID</th>
+                                        <th>Loan Ref</th>
+                                        <th>Member Name</th>
+                                        <th>Book Title</th>
+                                        <th>Days Overdue</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Payment Details</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fines-table-tbody">
+                                    <!-- Rendered dynamically by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 6. TAB: REPORTS & EXPORTS -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-reports">
+                    <div class="reports-grid">
+                        <div class="glass-card report-card">
+                            <div class="report-icon bg-indigo">
+                                <i data-feather="book"></i>
+                            </div>
+                            <div class="report-meta">
+                                <h3>Books Inventory Export</h3>
+                                <p>Comprehensive catalog of all titles, ISBNs, shelf locations, total and available stock.</p>
+                                <div class="report-stats">Format: CSV Spreadsheet</div>
+                            </div>
+                            <a href="/api/export/books" class="btn-primary btn-download" download>
+                                <i data-feather="download"></i> Download CSV
+                            </a>
+                        </div>
+
+                        <div class="glass-card report-card">
+                            <div class="report-icon bg-emerald">
+                                <i data-feather="users"></i>
+                            </div>
+                            <div class="report-meta">
+                                <h3>Members Roster Export</h3>
+                                <p>Full list of registered patrons, membership levels, contact records, and account statuses.</p>
+                                <div class="report-stats">Format: CSV Spreadsheet</div>
+                            </div>
+                            <a href="/api/export/members" class="btn-primary btn-download" download>
+                                <i data-feather="download"></i> Download CSV
+                            </a>
+                        </div>
+
+                        <div class="glass-card report-card">
+                            <div class="report-icon bg-amber">
+                                <i data-feather="repeat"></i>
+                            </div>
+                            <div class="report-meta">
+                                <h3>Circulation Transactions Export</h3>
+                                <p>Complete borrowing history, issue dates, due dates, renewal counts, and return records.</p>
+                                <div class="report-stats">Format: CSV Spreadsheet</div>
+                            </div>
+                            <a href="/api/export/loans" class="btn-primary btn-download" download>
+                                <i data-feather="download"></i> Download CSV
+                            </a>
+                        </div>
+
+                        <div class="glass-card report-card">
+                            <div class="report-icon bg-rose">
+                                <i data-feather="dollar-sign"></i>
+                            </div>
+                            <div class="report-meta">
+                                <h3>Fines & Revenue Export</h3>
+                                <p>Detailed overdue penalties, collected fee revenue, settled payments, and fee waivers.</p>
+                                <div class="report-stats">Format: CSV Spreadsheet</div>
+                            </div>
+                            <a href="/api/export/fines" class="btn-primary btn-download" download>
+                                <i data-feather="download"></i> Download CSV
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================================================ -->
+                <!-- 7. TAB: AUDIT LOGS -->
+                <!-- ================================================ -->
+                <section class="tab-pane" id="pane-activity">
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <h3 class="card-title">System Audit Trail</h3>
+                                <p class="card-subtitle">Chronological record of all library transactions and updates</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline-activity-list" id="full-activity-timeline">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL DIALOGS -->
+    <!-- ==================================================== -->
+
+    <!-- 1. BOOK MODAL (ADD / EDIT) -->
+    <div class="modal-backdrop" id="modal-book">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-book-title">Add New Book</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-book')">&times;</button>
+            </div>
+            <form id="form-book" onsubmit="app.handleBookSubmit(event)">
+                <input type="hidden" id="book-id" value="">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group col-12">
+                            <label class="form-label" for="book-title-input">Book Title *</label>
+                            <input type="text" id="book-title-input" class="form-control" required placeholder="e.g. Design Patterns: Elements of Reusable Object-Oriented Software">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="book-author-input">Author(s) *</label>
+                            <input type="text" id="book-author-input" class="form-control" required placeholder="e.g. Erich Gamma, Richard Helm">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="book-isbn-input">ISBN-10 / ISBN-13 *</label>
+                            <input type="text" id="book-isbn-input" class="form-control" required placeholder="e.g. 978-0201633610">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="book-category-input">Category</label>
+                            <select id="book-category-input" class="form-select">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="book-publisher-input">Publisher</label>
+                            <input type="text" id="book-publisher-input" class="form-control" placeholder="e.g. Addison-Wesley Professional">
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="form-label" for="book-year-input">Publication Year</label>
+                            <input type="number" id="book-year-input" class="form-control" min="1500" max="2030" placeholder="e.g. 2024">
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="form-label" for="book-copies-input">Total Copies *</label>
+                            <input type="number" id="book-copies-input" class="form-control" min="1" max="500" value="3" required>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="form-label" for="book-shelf-input">Shelf Location</label>
+                            <input type="text" id="book-shelf-input" class="form-control" placeholder="e.g. Rack CS-05">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="form-label" for="book-color-input">Cover Accent Theme</label>
+                            <div class="color-picker-group">
+                                <label class="color-option"><input type="radio" name="book-color" value="#3b82f6" checked><span class="color-swatch" style="background:#3b82f6;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#6366f1"><span class="color-swatch" style="background:#6366f1;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#8b5cf6"><span class="color-swatch" style="background:#8b5cf6;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#ec4899"><span class="color-swatch" style="background:#ec4899;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#10b981"><span class="color-swatch" style="background:#10b981;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#f59e0b"><span class="color-swatch" style="background:#f59e0b;"></span></label>
+                                <label class="color-option"><input type="radio" name="book-color" value="#06b6d4"><span class="color-swatch" style="background:#06b6d4;"></span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="form-label" for="book-desc-input">Description / Overview</label>
+                            <textarea id="book-desc-input" class="form-control" rows="3" placeholder="Brief summary, key topics, notes..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="app.closeModal('modal-book')">Cancel</button>
+                    <button type="submit" class="btn-primary" id="btn-submit-book">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. MEMBER MODAL (REGISTER / EDIT) -->
+    <div class="modal-backdrop" id="modal-member">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-member-title">Register New Member</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-member')">&times;</button>
+            </div>
+            <form id="form-member" onsubmit="app.handleMemberSubmit(event)">
+                <input type="hidden" id="member-id" value="">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group col-12">
+                            <label class="form-label" for="member-name-input">Full Name *</label>
+                            <input type="text" id="member-name-input" class="form-control" required placeholder="e.g. Eleanor Vance">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="member-email-input">Email Address *</label>
+                            <input type="email" id="member-email-input" class="form-control" required placeholder="e.g. eleanor.vance@example.edu">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="member-phone-input">Phone Number *</label>
+                            <input type="text" id="member-phone-input" class="form-control" required placeholder="e.g. +1 (555) 019-2834">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="member-type-input">Membership Tier</label>
+                            <select id="member-type-input" class="form-select" onchange="app.handleMembershipTypeChange()">
+                                <option value="Student">Student (5 books max)</option>
+                                <option value="Faculty">Faculty (10 books max)</option>
+                                <option value="Premium">Premium (8 books max)</option>
+                                <option value="Standard">Standard (3 books max)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="member-max-input">Max Books Allowed</label>
+                            <input type="number" id="member-max-input" class="form-control" min="1" max="25" value="5">
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="member-status-input">Status</label>
+                            <select id="member-status-input" class="form-select">
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Expired">Expired</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="form-label" for="member-address-input">Residential Address</label>
+                            <input type="text" id="member-address-input" class="form-control" placeholder="e.g. 742 Evergreen Terrace, Springfield">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="app.closeModal('modal-member')">Cancel</button>
+                    <button type="submit" class="btn-primary" id="btn-submit-member">Register Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. ISSUE BOOK MODAL -->
+    <div class="modal-backdrop" id="modal-issue">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Issue Book to Member</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-issue')">&times;</button>
+            </div>
+            <form id="form-issue" onsubmit="app.handleIssueSubmit(event)">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group col-12">
+                            <label class="form-label" for="issue-book-select">Select Available Book *</label>
+                            <select id="issue-book-select" class="form-select" required>
+                                <option value="">-- Choose a Book --</option>
+                            </select>
+                            <small class="form-hint" id="issue-book-hint">Only books with available copies in inventory are listed.</small>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="form-label" for="issue-member-select">Select Member *</label>
+                            <select id="issue-member-select" class="form-select" required>
+                                <option value="">-- Choose a Member --</option>
+                            </select>
+                            <small class="form-hint" id="issue-member-hint">Active members with remaining borrowing capacity.</small>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label" for="issue-days-input">Loan Duration (Days)</label>
+                            <select id="issue-days-input" class="form-select">
+                                <option value="7">7 Days (1 Week)</option>
+                                <option value="14" selected>14 Days (2 Weeks Standard)</option>
+                                <option value="21">21 Days (3 Weeks)</option>
+                                <option value="30">30 Days (1 Month Extended)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="form-label">Calculated Due Date</label>
+                            <input type="text" id="issue-due-date-preview" class="form-control" readonly value="...">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="form-label" for="issue-notes-input">Notes / Purpose (Optional)</label>
+                            <input type="text" id="issue-notes-input" class="form-control" placeholder="e.g. Research project loan, semester reading">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="app.closeModal('modal-issue')">Cancel</button>
+                    <button type="submit" class="btn-primary">Confirm Issue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. RETURN BOOK MODAL -->
+    <div class="modal-backdrop" id="modal-return">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Return Book Circulation</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-return')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="return-loan-id" value="">
+                <div class="return-summary-card">
+                    <div class="return-meta-row">
+                        <span>Book:</span>
+                        <strong id="return-book-title">-</strong>
+                    </div>
+                    <div class="return-meta-row">
+                        <span>Borrower:</span>
+                        <strong id="return-member-name">-</strong>
+                    </div>
+                    <div class="return-meta-row">
+                        <span>Due Date:</span>
+                        <strong id="return-due-date">-</strong>
+                    </div>
+                    <div class="return-meta-row" id="return-overdue-container">
+                        <span>Overdue Status:</span>
+                        <strong class="text-danger" id="return-overdue-days">0 Days</strong>
+                    </div>
+                    <div class="return-meta-row highlight-row" id="return-fine-container">
+                        <span>Fine Assessment:</span>
+                        <strong class="text-danger" id="return-fine-amount">$0.00</strong>
+                    </div>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label class="form-label" for="return-notes-input">Condition / Notes (Optional)</label>
+                    <input type="text" id="return-notes-input" class="form-control" placeholder="e.g. Returned in good shape, spine intact">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="app.closeModal('modal-return')">Cancel</button>
+                <button type="button" class="btn-emerald" onclick="app.confirmReturn()">Process Return</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. PAY FINE MODAL -->
+    <div class="modal-backdrop" id="modal-fine">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Settle Fine Payment</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-fine')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="fine-id" value="">
+                <div class="fine-payment-box">
+                    <span class="fine-box-label">Outstanding Balance</span>
+                    <h2 class="fine-box-amount" id="fine-modal-amount">$0.00</h2>
+                    <p class="fine-box-meta" id="fine-modal-member">Borrower: -</p>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="form-label" for="fine-payment-notes">Payment Reference / Notes</label>
+                    <input type="text" id="fine-payment-notes" class="form-control" value="Settled at reception desk">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="app.closeModal('modal-fine')">Cancel</button>
+                <button type="button" class="btn-outline-danger" onclick="app.waiveFine()">Waive Fine</button>
+                <button type="button" class="btn-primary" onclick="app.confirmPayFine()">Mark as Paid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. BOOK DETAILS / HISTORY MODAL -->
+    <div class="modal-backdrop" id="modal-book-details">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title">Book Details & Borrowing History</h3>
+                <button class="modal-close-btn" onclick="app.closeModal('modal-book-details')">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-book-details-content">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="app.closeModal('modal-book-details')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script>
+        // Initialize Feather icons after render
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.feather) {
+                feather.replace();
+            }
+        });
+    </script>
+</body>
+</html>
