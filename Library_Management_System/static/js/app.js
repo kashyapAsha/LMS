@@ -172,10 +172,65 @@ class LibraryApp {
         document.getElementById('issue-days-input')?.addEventListener('change', () => this.updateIssueDueDatePreview());
 
         // Mobile Sidebar Toggle
-        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        /*const mobileToggle = document.getElementById('mobile-menu-toggle');
         const sidebar = document.getElementById('sidebar');
         if (mobileToggle && sidebar) {
             mobileToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+        }*/
+        /*const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const desktopToggle = document.getElementById('btn-sidebar-collapse');
+        const sidebar = document.getElementById('sidebar');
+
+
+        if (mobileToggle && sidebar) {
+            mobileToggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+        }
+
+
+        if (desktopToggle && sidebar) {
+            desktopToggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+        }*/
+        // =========================================================
+        // SIDEBAR TOGGLE
+        // =========================================================
+        //newly added code for sidebar collapse//
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const desktopToggle = document.getElementById('btn-sidebar-collapse');
+        const sidebar = document.getElementById('sidebar');
+
+        // Mobile sidebar
+        if (mobileToggle && sidebar) {
+            mobileToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+        }
+
+        // Desktop sidebar collapse
+        if (desktopToggle && sidebar) {
+            desktopToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+
+                // Change arrow direction
+                const icon = desktopToggle.querySelector('svg');
+
+                if (sidebar.classList.contains('collapsed')) {
+                    desktopToggle.setAttribute('aria-label', 'Expand Sidebar');
+
+                    if (icon) {
+                        icon.outerHTML = '<i data-feather="chevron-right"></i>';
+                    }
+                } else {
+                    desktopToggle.setAttribute('aria-label', 'Collapse Sidebar');
+
+                    if (icon) {
+                        icon.outerHTML = '<i data-feather="chevron-left"></i>';
+                    }
+                }
+
+                if (window.feather) {
+                    feather.replace();
+                }
+            });
         }
 
         // Close modal on backdrop click
@@ -449,10 +504,11 @@ class LibraryApp {
         if (gridView) {
             if (books.length === 0) {
                 gridView.innerHTML = `
-                    <div class="col-12 text-center py-4" style="grid-column: 1 / -1;">
-                        <p class="text-muted">No books found matching the current search criteria.</p>
-                    </div>
-                `;
+                      <div class="col-12 text-center py-5 d-flex flex-column align-items-center justify-content-center" style="min-height: 300px; width: 100%;">
+                          <p class="text-muted fs-5 m-0">No books found matching the current search criteria.</p>
+                      </div>
+                  `;
+
             } else {
                 gridView.innerHTML = books.map(b => {
                     const avail = Number(b.available_copies);
