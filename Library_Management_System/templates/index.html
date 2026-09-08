@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Athena | Smart Library Management System</title>
-    <meta name="description"
-        content="Modern Library Management System for seamless cataloging, member tracking, book circulation, and fine management.">
-
+    <title>IRIEEN | Smart Library Management System</title>
+    <meta name="description" content="Indian Railways Institute of Electrical Engineering (IRIEEN) Centralized Library Management System.">
+    
     <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,8 +34,8 @@
                         <i data-feather="book-open"></i>
                     </div>
                     <div class="logo-text">
-                        <h2>Athena<span>LMS</span></h2>
-                        <span class="badge-sub">v2.6 Enterprise</span>
+                        <h2>IRIEEN<span>LMS</span></h2>
+                        <span class="badge-sub">Central Library</span>
                     </div>
                 </div>
                 <button class="btn-sidebar-toggle" id="btn-sidebar-collapse" aria-label="Toggle Sidebar">
@@ -99,6 +98,10 @@
                         <span class="status-sub">Connected (Port 3306)</span>
                     </div>
                 </div>
+                <button class="btn-sidebar-logout" id="btn-sidebar-logout" onclick="app.logout()" title="Sign out of IRIEEN LMS">
+                    <i data-feather="log-out"></i>
+                    <span>Sign Out</span>
+                </button>
             </div>
         </aside>
 
@@ -142,6 +145,10 @@
                     <button class="btn-primary btn-quick-issue" id="btn-quick-issue-nav">
                         <i data-feather="plus-circle"></i>
                         <span>Issue Book</span>
+                    </button>
+
+                    <button class="btn-theme-toggle btn-logout-icon" id="btn-navbar-logout" onclick="app.logout()" title="Sign Out">
+                        <i data-feather="log-out"></i>
                     </button>
                 </div>
             </header>

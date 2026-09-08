@@ -38,11 +38,54 @@ def before_request():
         sync_overdue_loans_and_fines()
 
 # -------------------------------------------------------------
-# Web Page Route (SPA)
+# Web Page Routes (Landing Page & SPA)
 # -------------------------------------------------------------
 @app.route('/')
-def index():
+@app.route('/login')
+def landing():
+    return render_template('login.html')
+
+@app.route('/dashboard')
+@app.route('/app')
+def dashboard():
     return render_template('index.html')
+
+# -------------------------------------------------------------
+# Authentication API
+# -------------------------------------------------------------
+@app.route('/api/auth/login', methods=['POST'])
+def api_login():
+    try:
+        data = request.get_json() or {}
+        username = str(data.get('username', '')).strip()
+        password = str(data.get('password', ''))
+        
+        # Validate against demo credentials
+        if username == 'test_1' and password == '123456':
+            log_activity('USER_LOGIN', f"User '{username}' logged in successfully", 'AUTH', None)
+            return jsonify({
+                'success': True,
+                'message': 'Authentication successful',
+                'user': {
+                    'username': 'test_1',
+                    'role': 'Administrator',
+                    'name': 'IRIEEN Library Admin'
+                }
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'Invalid username or password.'
+            }), 401
+    except Exception as e:
+        return jsonify({'success': False, 'error': 'Invalid username or password.'}), 400
+
+@app.route('/api/auth/logout', methods=['POST'])
+def api_logout():
+    try:
+        return jsonify({'success': True, 'message': 'Logged out successfully'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # -------------------------------------------------------------
 # 1. Dashboard & Analytics APIs

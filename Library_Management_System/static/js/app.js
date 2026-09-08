@@ -22,7 +22,16 @@ class LibraryApp {
     }
 
     async init() {
-        console.log("Initializing Athena LMS...");
+        console.log("Initializing IRIEEN LMS...");
+
+        // Ensure user is authenticated, otherwise redirect to landing/login page
+        const authData = sessionStorage.getItem('irieen_user');
+        if (!authData) {
+            console.warn("No active session found. Redirecting to login page...");
+            window.location.href = '/login';
+            return;
+        }
+
         this.applyTheme(this.state.theme);
         this.initEventListeners();
         this.startClock();
@@ -43,6 +52,19 @@ class LibraryApp {
                 this.loadDashboardData(true);
             }
         }, 45000);
+    }
+
+    // =========================================================
+    // AUTHENTICATION & LOGOUT
+    // =========================================================
+    async logout() {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
+        } catch (e) {
+            // Ignore network errors during logout
+        }
+        sessionStorage.removeItem('irieen_user');
+        window.location.href = '/login';
     }
 
     // =========================================================
