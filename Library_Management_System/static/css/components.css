@@ -35,7 +35,9 @@
     max-width: 380px;
 }
 
-.search-input-wrap i {
+.search-input-wrap i,
+.search-input-wrap svg,
+.search-input-wrap .feather {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -43,6 +45,7 @@
     width: 16px;
     height: 16px;
     color: var(--text-muted);
+    pointer-events: none;
 }
 
 .search-input-wrap .form-control {
@@ -98,7 +101,9 @@ textarea.form-control {
     box-shadow: var(--shadow-sm);
 }
 
-.btn-icon-toggle i {
+.btn-icon-toggle i,
+.btn-icon-toggle svg,
+.btn-icon-toggle .feather {
     width: 16px;
     height: 16px;
 }
