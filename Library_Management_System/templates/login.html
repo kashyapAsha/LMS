@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRIEEN LMS | Librarian Sign In</title>
-    <meta name="description" content="Indian Railways Institute of Electrical Engineering (IRIEEN) Centralized Library Management System Portal.">
+    <meta name="description"
+        content="Indian Railways Institute of Electrical Engineering (IRIEEN) Centralized Library Management System Portal.">
 
     <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Feather Icons CDN -->
     <script src="https://unpkg.com/feather-icons"></script>
@@ -17,6 +21,7 @@
     <!-- Landing & Login Stylesheet -->
     <link rel="stylesheet" href="/static/css/login.css">
 </head>
+
 <body>
     <div class="landing-page-wrapper">
         <!-- Dark Vignette Overlay -->
@@ -33,107 +38,29 @@
                     </div>
                     <div class="crest-titles">
                         <h1>IRIEEN_Test <span>LMS</span></h1>
-                        <p>V2.6 ENTERPRISE</p>
+                        <!--<p>V2.6 ENTERPRISE</p>-->
                     </div>
                 </div>
 
                 <div class="header-right-actions">
-                    <div class="header-meta-pill">
+                    <!--<div class="header-meta-pill">
                         <span class="dot"></span>
                         <span>System Operational</span>
                     </div>
-                    <button class="btn-header-theme" id="btn-header-theme" title="System Status" aria-label="System Theme">
+                    <button class="btn-header-theme" id="btn-header-theme" title="System Status"
+                        aria-label="System Theme">
                         <i data-feather="sun"></i>
-                    </button>
+                    </button>-->
                 </div>
             </div>
         </header>
 
         <!-- ==================================================== -->
-        <!-- MAIN CONTENT AREA -->
+        <!-- MAIN CONTENT AREA (CENTERED LOGIN BOX ONLY) -->
         <!-- ==================================================== -->
         <main class="landing-main-content">
-            <div class="landing-grid">
-                <!-- Left Column: Hero & Feature Highlights -->
-                <section class="hero-info-section">
-                    <div class="hero-pill-tag">
-                        <i data-feather="shield"></i>
-                        <span>Authorized Staff & Personnel Access</span>
-                    </div>
-
-                    <h2 class="hero-title">
-                        Digital Intelligence for the<br>
-                        <span class="text-gradient-pink">Modern</span> <span class="text-gradient-cyan">Library</span>
-                    </h2>
-
-                    <p class="hero-description">
-                        Streamlined book cataloging, high-speed automated circulation, student & faculty member lifecycle management, real-time analytics, and automated fine auditing.
-                    </p>
-
-                    <!-- 2x2 Feature Highlights -->
-                    <div class="institutional-features">
-                        <div class="feature-item">
-                            <div class="feature-icon icon-purple">
-                                <i data-feather="grid"></i>
-                            </div>
-                            <div class="feature-text">
-                                <strong>Real-Time Analytics</strong>
-                                <span>Live inventory distribution & circulation trends</span>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon icon-blue">
-                                <i data-feather="repeat"></i>
-                            </div>
-                            <div class="feature-text">
-                                <strong>Fast Circulation</strong>
-                                <span>1-Click return & automated fine ledger</span>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon icon-cyan">
-                                <i data-feather="database"></i>
-                            </div>
-                            <div class="feature-text">
-                                <strong>Dual-Engine Database</strong>
-                                <span>High availability SQLite & MySQL storage</span>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon icon-indigo">
-                                <i data-feather="file-text"></i>
-                            </div>
-                            <div class="feature-text">
-                                <strong>Reports & Audits</strong>
-                                <span>1-Click CSV exports & chronological logs</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pre-Configured Demo Credentials Banner -->
-                    <div class="demo-credentials-banner">
-                        <div class="demo-banner-left">
-                            <div class="demo-key-icon">
-                                <i data-feather="key"></i>
-                            </div>
-                            <div class="demo-cred-info">
-                                <span class="demo-cred-title">PRE-CONFIGURED DEMO CREDENTIALS</span>
-                                <div class="demo-cred-values">
-                                    User: <strong class="cyan-highlight">test_1</span> &bull; Password: <strong class="cyan-highlight">123456</span>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-autofill" id="btn-autofill" title="Automatically populate login fields">
-                            <i data-feather="zap"></i>
-                            <span>Auto Fill</span>
-                        </button>
-                    </div>
-                </section>
-
-                <!-- Right Column: Compact Glassmorphic Login Modal / Card -->
+            <div class="landing-centered-container">
+                <!-- Centered Glassmorphic Login Card -->
                 <section class="login-card-wrapper">
                     <div class="login-card">
                         <div class="card-header-block">
@@ -156,17 +83,8 @@
                                 <label class="field-label" for="username">Username or ID</label>
                                 <div class="input-container">
                                     <i data-feather="user" class="input-leading-icon"></i>
-                                    <input 
-                                        type="text" 
-                                        id="username" 
-                                        name="username" 
-                                        class="login-input" 
-                                        placeholder="test_1" 
-                                        autocomplete="username" 
-                                        value="test_1"
-                                        required 
-                                        autofocus
-                                    >
+                                    <input type="text" id="username" name="username" class="login-input"
+                                        placeholder="test_1" autocomplete="username" value="test_1" required autofocus>
                                 </div>
                             </div>
 
@@ -177,23 +95,10 @@
                                 </div>
                                 <div class="input-container password-container">
                                     <i data-feather="lock" class="input-leading-icon"></i>
-                                    <input 
-                                        type="password" 
-                                        id="password" 
-                                        name="password" 
-                                        class="login-input" 
-                                        placeholder="••••••" 
-                                        autocomplete="current-password" 
-                                        value="123456"
-                                        required
-                                    >
-                                    <button 
-                                        type="button" 
-                                        class="btn-toggle-password" 
-                                        id="btn-toggle-password" 
-                                        aria-label="Show or hide password"
-                                        title="Show or hide password"
-                                    >
+                                    <input type="password" id="password" name="password" class="login-input"
+                                        placeholder="••••••" autocomplete="current-password" value="123456" required>
+                                    <button type="button" class="btn-toggle-password" id="btn-toggle-password"
+                                        aria-label="Show or hide password" title="Show or hide password">
                                         <i data-feather="eye" class="eye-icon"></i>
                                         <i data-feather="eye-off" class="eye-off-icon" style="display: none;"></i>
                                     </button>
@@ -213,10 +118,22 @@
                                 <i data-feather="arrow-right"></i>
                             </button>
 
-                            <div class="security-badge">
+                            <!-- Pre-configured Credentials Chip -->
+                            <div class="demo-chip-badge">
+                                <div class="demo-chip-text">
+                                    <i data-feather="key"></i>
+                                    <span>Demo: <strong>test_1</strong> &bull; <strong>123456</strong></span>
+                                </div>
+                                <button type="button" class="btn-autofill-sm" id="btn-autofill"
+                                    title="Automatically populate login fields">
+                                    <i data-feather="zap"></i> Auto Fill
+                                </button>
+                            </div>
+
+                            <!--   <div class="security-badge">
                                 <i data-feather="shield"></i>
                                 <span>Enterprise TLS 1.3 Encryption Active</span>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                 </section>
@@ -228,7 +145,7 @@
         <!-- ==================================================== -->
         <footer class="landing-footer">
             <div class="footer-content">
-                <span>&copy; 2026 Athena / IRIEEN Library Management System. All rights reserved.</span>
+                <span>&copy; 2026 / IRIEEN Library Management System. All rights reserved.</span>
             </div>
         </footer>
     </div>
@@ -236,4 +153,5 @@
     <!-- Controller Script -->
     <script src="/static/js/login.js"></script>
 </body>
+
 </html>

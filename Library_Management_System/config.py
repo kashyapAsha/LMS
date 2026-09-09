@@ -8,7 +8,7 @@ class Config:
     DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
     DB_PORT = int(os.environ.get('DB_PORT', 3306))
     DB_USER = os.environ.get('DB_USER', 'root')
-    DB_PASSWORD = os.environ.get('DB_PASSWORD', '123456')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', '12345')
     DB_NAME = os.environ.get('DB_NAME', 'library_management_system')
     
     # Library Business Rules
